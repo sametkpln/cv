@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samet Kaplan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .cv-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #f39c12, #e74c3c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        .name {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 0;
+        }
+
+        .sidebar {
+            background: #f8f9fa;
+            padding: 40px;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #e74c3c;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .contact-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .skill-item {
+            margin-bottom: 20px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+            animation: fillBar 2s ease-in-out;
+        }
+
+        @keyframes fillBar {
+            from { width: 0; }
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            border-radius: 0 10px 10px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .experience-item:hover, .education-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .company {
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-level {
+            background: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .name {
+                font-size: 2rem;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .sidebar, .main-content {
+                padding: 20px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cv-card">
+            <div class="header">
+                <div class="profile-img">SK</div>
+                <h1 class="name">Samet Kaplan</h1>
+                <p class="title"></p>
+            </div>
+            
+            <div class="content">
+                <div class="sidebar">
+                    <div class="section">
+                        <h2 class="section-title">Contact</h2>
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <span>samet316kaplan@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <span>0541 646 2360</span>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <span>Buca, İzmir</span>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🔗</div>
+                            <span>linkedin.com/in/sametkaplan316</span>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🐙</div>
+                            <span>github.com/sametkpln</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Skills</h2>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>C#</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Java</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>JavaScript</span>
+                                <span>50%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>HTML</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Node.js</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Python</span>
+                                <span>50%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>PHP</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Languages</h2>
+                        <div class="language-item">
+                            <span>Türkçe</span>
+                            <span class="language-level">Anadil</span>
+                        </div>
+                        <div class="language-item">
+                            <span>İngilizce</span>
+                            <span class="language-level">Akıcı</span>
+                        </div>
+                        <div class="language-item">
+                            <span>Fransızca</span>
+                            <span class="language-level">Başlangıç</span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="main-content">
+                    <div class="section">
+                        <h2 class="section-title">Özgeçmiş</h2>
+                        <p class="description">
+                            Ege Üniversitesi Bilgisayar Programcılığı 2. sınıf öğrencisiyim. Web ve mobil uygulama geliştirme alanlarına ilgi duyuyorum. HTML, CSS, JavaScript ve temel düzeyde Flutter/Firebase gibi teknolojilerle projeler geliştirdim. Takım çalışmasına yatkın, sorumluluk sahibi ve öğrenmeye açık bir yapıya sahibim. Sektör deneyimi kazanmak ve teknik bilgilerimi gerçek projelerde geliştirmek istiyorum.
+                        </p>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">Eğitim</h2>
+                        <div class="education-item">
+                            <div class="job-title">Bilgisayar Programcılığı</div>
+                            <div class="company">Ege Üniversitesi</div>
+                            <div class="date">2023 - 2025</div>
+                        </div>
+                         <div class="education-item">
+                            <div class="company">Şirinyer Anadolu Lisesi</div>
+                            <div class="date">2019 - 2023</div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Projelerim</h2>
+                        <div class="experience-item">
+                            <div class="job-title">E-Ticaret Platformu</div>
+                            <div class="company">Okul Projesi</div>
+                            <p class="description">
+                               Bilgisayar Programcılığı bitirme projesi kapsamında HTML, CSS, PHP ve MySQL kullanarak bir e-ticaret web uygulaması geliştirdim. Bu projede kullanıcı girişi, ürün listeleme, sepet yönetimi ve ödeme simülasyonu gibi temel e-ticaret işlevleri yer almaktadır. Ayrıca admin paneli üzerinden ürün, kullanıcı ve sipariş yönetimi yapılabilmektedir. Uygulama mobil cihazlara uyumlu tasarlanmıştır.
+                            </p>
+                        </div>
+                        
+                        <div class="experience-item">
+                            <div class="job-title">Günlük Uygulaması</div>
+                            <div class="company">Kişisel Projem</div>
+                            <p class="description">
+                                Kız arkadaşımla birlikte ortak anılarımızı kaydedebileceğimiz kişisel bir günlük uygulaması geliştirdim. Bu projeyi başkalarının da kendi ilişkilerine veya özel amaçlarına uyarlayabilmesi için kaynak kodlarını Github üzerinde açık şekilde paylaştım.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            });
+
+            skillBars.forEach(bar => {
+                observer.observe(bar);
+            });
+        });
+    </script>
+</body>
+</html>
