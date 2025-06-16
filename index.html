@@ -54,8 +54,6 @@
             overflow: hidden;
         }
 
-
-
         .profile-img {
             width: 150px;
             height: 150px;
@@ -136,11 +134,30 @@
             margin-bottom: 15px;
             padding: 10px;
             border-radius: 10px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
         }
 
         .contact-item:hover {
             background: rgba(52, 152, 219, 0.1);
+            transform: translateX(3px);
+        }
+
+        .contact-item.copyable {
+            cursor: pointer;
+        }
+
+        .contact-item.copyable:hover::after {
+            content: 'Kopyalamak için tıklayın';
+            position: absolute;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
         }
 
         .contact-icon {
@@ -243,6 +260,32 @@
             font-size: 0.8rem;
         }
 
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification.hide {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+
         @media (max-width: 768px) {
             .content {
                 grid-template-columns: 1fr;
@@ -259,9 +302,21 @@
             .sidebar, .main-content {
                 padding: 20px;
             }
+
+            .notification {
+                right: 10px;
+                left: 10px;
+                transform: translateY(-100px);
+            }
+
+            .notification.show {
+                transform: translateY(0);
+            }
+
+            .notification.hide {
+                transform: translateY(-100px);
+            }
         }
-
-
     </style>
 </head>
 <body>
@@ -277,23 +332,23 @@
                 <div class="sidebar">
                     <div class="section">
                         <h2 class="section-title">Contact</h2>
-                        <div class="contact-item">
+                        <div class="contact-item copyable" data-copy="samet316kaplan@gmail.com">
                             <div class="contact-icon">📧</div>
                             <span>samet316kaplan@gmail.com</span>
                         </div>
-                        <div class="contact-item">
+                        <div class="contact-item copyable" data-copy="0541 646 2360">
                             <div class="contact-icon">📱</div>
                             <span>0541 646 2360</span>
                         </div>
-                        <div class="contact-item">
+                        <div class="contact-item copyable" data-copy="Buca, İzmir">
                             <div class="contact-icon">📍</div>
                             <span>Buca, İzmir</span>
                         </div>
-                        <div class="contact-item">
+                        <div class="contact-item copyable" data-copy="https://linkedin.com/in/sametkaplan316">
                             <div class="contact-icon">🔗</div>
                             <span>linkedin.com/in/sametkaplan316</span>
                         </div>
-                        <div class="contact-item">
+                        <div class="contact-item copyable" data-copy="https://github.com/sametkpln">
                             <div class="contact-icon">🐙</div>
                             <span>github.com/sametkpln</span>
                         </div>
@@ -381,8 +436,6 @@
                             <span class="language-level">Başlangıç</span>
                         </div>
                     </div>
-
-
                 </div>
 
                 <div class="main-content">
@@ -403,7 +456,6 @@
                             <div class="company">Şirinyer Anadolu Lisesi</div>
                             <div class="date">2019 - 2023</div>
                         </div>
-                        
                     </div>
 
                     <div class="section">
@@ -429,6 +481,9 @@
         </div>
     </div>
 
+    <!-- Notification element -->
+    <div id="notification" class="notification"></div>
+
     <script>
         // Add some interactive animations
         document.addEventListener('DOMContentLoaded', function() {
@@ -445,6 +500,70 @@
             skillBars.forEach(bar => {
                 observer.observe(bar);
             });
+
+            // Copy to clipboard functionality
+            const copyableItems = document.querySelectorAll('.copyable');
+            const notification = document.getElementById('notification');
+
+            copyableItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const textToCopy = this.getAttribute('data-copy');
+                    
+                    // Modern browsers
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(textToCopy).then(() => {
+                            showNotification('Kopyalandı: ' + textToCopy);
+                        }).catch(() => {
+                            fallbackCopyTextToClipboard(textToCopy);
+                        });
+                    } else {
+                        // Fallback for older browsers
+                        fallbackCopyTextToClipboard(textToCopy);
+                    }
+                });
+            });
+
+            function fallbackCopyTextToClipboard(text) {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                
+                // Avoid scrolling to bottom
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.position = "fixed";
+                textArea.style.opacity = "0";
+                
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        showNotification('Kopyalandı: ' + text);
+                    } else {
+                        showNotification('Kopyalama başarısız');
+                    }
+                } catch (err) {
+                    showNotification('Kopyalama başarısız');
+                }
+                
+                document.body.removeChild(textArea);
+            }
+
+            function showNotification(message) {
+                notification.textContent = message;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    notification.classList.add('hide');
+                    
+                    setTimeout(() => {
+                        notification.classList.remove('hide');
+                    }, 300);
+                }, 2500);
+            }
         });
     </script>
 </body>
