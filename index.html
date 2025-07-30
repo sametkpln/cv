@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,18 +147,6 @@
 
         .contact-item.copyable {
             cursor: pointer;
-        }
-
-        .contact-item.copyable:hover::after {
-            content: 'Kopyalamak için tıklayın';
-            position: absolute;
-            right: 10px;
-            background: #3498db;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            white-space: nowrap;
         }
 
         .contact-icon {
@@ -332,25 +321,25 @@
                 <div class="sidebar">
                     <div class="section">
                         <h2 class="section-title">Contact</h2>
-                        <div class="contact-item copyable" data-copy="samet316kaplan@gmail.com">
+                        <div class="contact-item">
                             <div class="contact-icon">📧</div>
-                            <span>samet316kaplan@gmail.com</span>
+                            <a href="mailto:samet316kaplan@gmail.com">samet316kaplan@gmail.com</a>
                         </div>
-                        <div class="contact-item copyable" data-copy="0541 646 2360">
+                        <div class="contact-item">
                             <div class="contact-icon">📱</div>
-                            <span>0541 646 2360</span>
+                            <a href="tel:+905414320462" class="phone-header">0541 432 04 62</a>
                         </div>
-                        <div class="contact-item copyable" data-copy="Buca, İzmir">
+                        <div class="contact-item">
                             <div class="contact-icon">📍</div>
                             <span>Buca, İzmir</span>
                         </div>
-                        <div class="contact-item copyable" data-copy="https://linkedin.com/in/sametkaplan316">
+                        <div class="contact-item">
                             <div class="contact-icon">🔗</div>
-                            <span>linkedin.com/in/sametkaplan316</span>
+                            <a href="https://linkedin.com/in/sametkaplan316">linkedin.com/in/sametkaplan316</a>
                         </div>
-                        <div class="contact-item copyable" data-copy="https://github.com/sametkpln">
+                        <div class="contact-item">
                             <div class="contact-icon">🐙</div>
-                            <span>github.com/sametkpln</span>
+                            <a href="https://github.com/sametkpln">https://github.com/sametkpln</a>
                         </div>
                     </div>
 
@@ -501,69 +490,6 @@
                 observer.observe(bar);
             });
 
-            // Copy to clipboard functionality
-            const copyableItems = document.querySelectorAll('.copyable');
-            const notification = document.getElementById('notification');
-
-            copyableItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const textToCopy = this.getAttribute('data-copy');
-                    
-                    // Modern browsers
-                    if (navigator.clipboard && window.isSecureContext) {
-                        navigator.clipboard.writeText(textToCopy).then(() => {
-                            showNotification('Kopyalandı: ' + textToCopy);
-                        }).catch(() => {
-                            fallbackCopyTextToClipboard(textToCopy);
-                        });
-                    } else {
-                        // Fallback for older browsers
-                        fallbackCopyTextToClipboard(textToCopy);
-                    }
-                });
-            });
-
-            function fallbackCopyTextToClipboard(text) {
-                const textArea = document.createElement("textarea");
-                textArea.value = text;
-                
-                // Avoid scrolling to bottom
-                textArea.style.top = "0";
-                textArea.style.left = "0";
-                textArea.style.position = "fixed";
-                textArea.style.opacity = "0";
-                
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                
-                try {
-                    const successful = document.execCommand('copy');
-                    if (successful) {
-                        showNotification('Kopyalandı: ' + text);
-                    } else {
-                        showNotification('Kopyalama başarısız');
-                    }
-                } catch (err) {
-                    showNotification('Kopyalama başarısız');
-                }
-                
-                document.body.removeChild(textArea);
-            }
-
-            function showNotification(message) {
-                notification.textContent = message;
-                notification.classList.add('show');
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                    notification.classList.add('hide');
-                    
-                    setTimeout(() => {
-                        notification.classList.remove('hide');
-                    }, 300);
-                }, 2500);
-            }
         });
     </script>
 </body>
